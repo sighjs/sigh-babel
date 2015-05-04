@@ -19,7 +19,7 @@ function eventCompiler(opts) {
       moduleIds: true
     }
 
-    if (opts.modules === 'amd') {
+    if (opts.modules !== 'common') {
       var modulePath = event.projectPath.replace(/\.js$/, '')
       if (opts.getModulePath)
         modulePath = opts.getModulePath(modulePath)

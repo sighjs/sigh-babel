@@ -1,6 +1,6 @@
 {
   "name": "sigh-babel",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "Sigh plugin to compile many babel files in parallel using many CPUs/processes.",
   "scripts": {
     "test": "sigh"
