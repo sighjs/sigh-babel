@@ -1,6 +1,6 @@
 {
   "name": "sigh-babel",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "description": "Sigh plugin to compile many babel files in parallel using many CPUs/processes.",
   "scripts": {
     "test": "sigh"
@@ -29,7 +29,6 @@
     "sigh-core": "^0.11.0"
   },
   "peerDependencies": {
-    "sigh": ">=0.11.0 <0.14.0",
     "babel": ">=5"
   },
   "devDependencies": {

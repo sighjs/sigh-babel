@@ -48,17 +48,16 @@ function adaptEvent(compiler) {
   }
 }
 
+var pooledProc
+
 export default function(op, opts) {
   opts = _.assign({ modules: 'amd' }, opts || {})
 
   // without proc pool:
   // return mapEvents(op.stream, adaptEvent(eventCompiler(opts)))
 
-  var { procPool } = op
-  var processLimit = Math.max(1, Math.floor(procPool.processLimit / 2))
+  if (! pooledProc)
+    pooledProc = op.procPool.prepare(eventCompiler, opts)
 
-  return mapEvents(
-    op.stream,
-    adaptEvent(procPool.prepare(eventCompiler, opts, { processLimit }))
-  )
+  return mapEvents(op.stream, adaptEvent(pooledProc))
 }
