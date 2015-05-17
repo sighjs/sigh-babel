@@ -9,9 +9,6 @@ function eventCompiler(opts) {
   var _ = require('lodash')
 
   return function(event) {
-    if (event.type !== 'add' && event.type !== 'change')
-      return event
-
     var babelOpts = {
       modules: opts.modules,
       filename: event.path,
@@ -37,6 +34,13 @@ function eventCompiler(opts) {
 // (de)serialise argument to and result of babel subprocess
 function adaptEvent(compiler) {
   return event => {
+    if (event.type !== 'add' && event.type !== 'change')
+      return event
+
+    var { fileType } = event
+    if (fileType !== 'js' && fileType !== 'es6')
+      return event
+
     var result = compiler(_.pick(event, 'type', 'data', 'path', 'projectPath'))
 
     // without proc pool a Promise.resolve is needed here
