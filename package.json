@@ -1,6 +1,6 @@
 {
   "name": "sigh-babel",
-  "version": "0.11.4",
+  "version": "0.11.5",
   "description": "Sigh plugin to compile many babel files in parallel using many CPUs/processes.",
   "scripts": {
     "test": "sigh"
@@ -18,7 +18,7 @@
     "babel"
   ],
   "author": "James Pike <github@chilon.net>",
-  "license": "GPL",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/sighjs/sigh-babel/issues"
   },
