@@ -4,11 +4,19 @@ import _ from 'lodash'
 
 import { mapEvents } from 'sigh-core/lib/stream'
 
-function eventCompiler(opts) {
+function eventCompiler() {
   var babel = require('babel')
   var _ = require('lodash')
+  var instances = {}
 
-  return function(event) {
+  return function(instance, event) {
+    if (instance.createInstance) {
+      var newInstance = instance.instance
+      instances[newInstance] = instance.opts
+      return {}
+    }
+    var opts = instances[instance]
+
     var babelOpts = {
       modules: opts.modules,
       filename: event.path,
@@ -32,7 +40,7 @@ function eventCompiler(opts) {
 }
 
 // (de)serialise argument to and result of babel subprocess
-function adaptEvent(compiler) {
+function adaptEvent(instance, compiler) {
   return event => {
     if (event.type !== 'add' && event.type !== 'change')
       return event
@@ -41,7 +49,7 @@ function adaptEvent(compiler) {
     if (fileType !== 'js' && fileType !== 'es6')
       return event
 
-    var result = compiler(_.pick(event, 'type', 'data', 'path', 'projectPath'))
+    var result = compiler(instance, _.pick(event, 'type', 'data', 'path', 'projectPath'))
 
     // without proc pool a Promise.resolve is needed here
     return result.then(result => {
@@ -53,15 +61,16 @@ function adaptEvent(compiler) {
 }
 
 var pooledProc
+var lastInstance = 0
 
 export default function(op, opts) {
   opts = _.assign({ modules: 'amd' }, opts || {})
 
-  // without proc pool:
-  // return mapEvents(op.stream, adaptEvent(eventCompiler(opts)))
-
   if (! pooledProc)
-    pooledProc = op.procPool.prepare(eventCompiler, opts)
+    pooledProc = op.procPool.prepare(eventCompiler)
 
-  return mapEvents(op.stream, adaptEvent(pooledProc))
+  ++lastInstance
+  pooledProc.all({ createInstance: true, instance: lastInstance, opts })
+
+  return mapEvents(op.stream, adaptEvent(lastInstance, pooledProc))
 }
