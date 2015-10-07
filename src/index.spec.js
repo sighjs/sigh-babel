@@ -14,6 +14,7 @@ describe('babel plugin', () => {
   //       to starting subprocesses.
   var procPool
   beforeEach(() => { procPool = new ProcessPool })
+  afterEach(() => { procPool.destroy() })
 
   it('compiles a single add event', function() {
     this.timeout(2500)
