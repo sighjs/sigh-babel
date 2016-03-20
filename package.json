@@ -29,7 +29,7 @@
     "sigh-core": "^0.11.0"
   },
   "peerDependencies": {
-    "babel": ">=5"
+    "babel": ">=5 <6"
   },
   "devDependencies": {
     "babel": "^5.1.10",
