@@ -1,9 +1,14 @@
 var glob, pipeline, babel, debounce, write, mocha
 
 module.exports = function(pipelines) {
+
+
   pipelines.build = [
     glob({ basePath: 'src' }, '*.js'),
-    babel({ modules: 'common' }),
+    babel({
+      presets: [ 'es2015-loose', 'stage-1'],
+      plugins: ['transform-es2015-modules-commonjs'],
+    }),
     write('lib')
   ]
 
