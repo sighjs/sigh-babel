@@ -18,10 +18,13 @@ function eventCompiler() {
     var opts = instances[instance]
 
     var babelOpts = {
-      modules: opts.modules,
       filename: event.path,
       sourceMap: true,
       moduleIds: true
+    }
+    
+    for(var key in opts) {
+      babelOpts[key] = opts[key]
     }
 
     if (opts.modules !== 'common') {
