@@ -3,7 +3,7 @@ import Promise from 'bluebird'
 import { Bacon } from 'sigh-core'
 import ProcessPool from 'process-pool'
 
-import Event from 'sigh/lib/Event'
+import { Event } from 'sigh-core'
 import babel from './'
 
 require('source-map-support').install()
