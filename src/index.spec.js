@@ -17,7 +17,7 @@ describe('babel plugin', () => {
   afterEach(() => { procPool.destroy() })
 
   it('compiles a single add event', function() {
-    this.timeout(2500)
+    this.timeout(5000)
 
     var data = 'var pump = () => "pumper"'
     var event = new Event({
