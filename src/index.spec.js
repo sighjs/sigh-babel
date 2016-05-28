@@ -28,13 +28,22 @@ describe('babel plugin', () => {
     })
     var stream = Bacon.constant([ event ])
 
-    return babel({ stream, procPool }).toPromise(Promise).then(events => {
+    return babel(
+      { stream, procPool },
+      {
+        presets: [ 'es2015-loose', 'stage-1'],
+        plugins: ['transform-es2015-modules-amd'],
+      }
+    ).toPromise(Promise).then(events => {
       events.length.should.equal(1)
 
       var { data, sourceMap } = events[0]
-      data.should.equal('define("subdir/file", ["exports"], function (exports) {\n  "use strict";\n\n  var pump = function pump() {\n    return "pumper";\n  };\n});')
-      sourceMap.mappings.should.equal(';;;AAAA,MAAI,IAAI,GAAG,SAAP,IAAI;WAAS,QAAQ;GAAA,CAAA')
+
+      data.should.equal('define("subdir/file", [], function () {\n  "use strict";\n\n  var pump = function pump() {\n    return "pumper";\n  };\n});')
+      sourceMap.should.have.property('mappings')
+      sourceMap.mappings.should.have.length.above(20)
       sourceMap.file.should.equal(event.path)
+      sourceMap.sources.should.eql([event.path])
     })
   })
 })

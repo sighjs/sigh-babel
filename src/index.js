@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { mapEvents } from 'sigh-core/lib/stream'
 
 function eventCompiler() {
-  var babel = require('babel')
+  var babel = require('babel-core')
   var _ = require('lodash')
   var instances = {}
 
@@ -17,22 +17,17 @@ function eventCompiler() {
     }
     var opts = instances[instance]
 
-    var babelOpts = {
-      modules: opts.modules,
-      filename: event.path,
+    const {projectPath, path} = event
+
+    var babelOpts = _.assign({}, {
+      filename: path,
+      filenameRelative: projectPath,
+      moduleId: projectPath.replace(/\..*$/, ''),
+      moduleRoot: event.basePath,
+      sourceFileName: path,
+      sourceMapTarget: path,
       sourceMap: true,
-      moduleIds: true
-    }
-
-    if (opts.modules !== 'common') {
-      var modulePath = event.projectPath.replace(/\.js$/, '')
-      if (opts.getModulePath)
-        modulePath = opts.getModulePath(modulePath)
-      babelOpts.moduleId = modulePath
-    }
-
-    // if (event.basePath)
-    //   babelOpts.filenameRelative = event.basePath
+    }, opts)
 
     var result = babel.transform(event.data, babelOpts)
     return _.pick(result, 'code', 'map')
@@ -49,7 +44,7 @@ function adaptEvent(instance, compiler) {
     if (fileType !== 'js' && fileType !== 'es6')
       return event
 
-    var result = compiler(instance, _.pick(event, 'type', 'data', 'path', 'projectPath'))
+    var result = compiler(instance, _.pick(event, 'type', 'data', 'path', 'basePath', 'projectPath'))
 
     // without proc pool a Promise.resolve is needed here
     return result.then(result => {
@@ -63,9 +58,7 @@ function adaptEvent(instance, compiler) {
 var pooledProc
 var lastInstance = 0
 
-export default function(op, opts) {
-  opts = _.assign({ modules: 'amd' }, opts || {})
-
+export default function(op, opts = {}) {
   if (! pooledProc)
     pooledProc = op.procPool.prepare(eventCompiler)
 
