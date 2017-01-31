@@ -6,8 +6,6 @@ Sigh plugin for transpiling files with babel6 over multiple CPUs/processes.
 
 ## Usage
 
-You will need to `npm install --save-dev babel` before using this plugin, it uses your own installation of babel rather than bundling one. Since babel-6/sigh-babel-0.12 you will also need to install any plugins/presets you wish to use to customise babel.
-
 Create a pipeline that transpiles the given source files using babel:
 ```javascript
 module.exports = function(pipelines) {
