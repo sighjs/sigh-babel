@@ -1,6 +1,6 @@
 {
   "name": "sigh-babel",
-  "version": "0.12.2",
+  "version": "0.12.3",
   "description": "Sigh plugin to compile many babel files in parallel using many CPUs/processes.",
   "scripts": {
     "test": "sigh"
@@ -30,11 +30,10 @@
     "sigh-core": "^0.11.0"
   },
   "devDependencies": {
-    "babel-plugin-transform-es2015-modules-amd": "^6.8.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-es2015-loose": "^7.0.0",
-    "babel-preset-stage-1": "^6.5.0",
+    "babel-plugin-transform-es2015-modules-amd": "^6.22.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
     "chai": "^2.3.0",
     "mocha": "^2.2.4",
     "process-pool": "^0.3.4",

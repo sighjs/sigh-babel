@@ -31,7 +31,7 @@ describe('babel plugin', () => {
     return babel(
       { stream, procPool },
       {
-        presets: [ 'es2015-loose', 'stage-1'],
+        presets: [ 'es2015', 'stage-2'],
         plugins: ['transform-es2015-modules-amd'],
       }
     ).toPromise(Promise).then(events => {

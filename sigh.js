@@ -6,7 +6,7 @@ module.exports = function(pipelines) {
   pipelines.build = [
     glob({ basePath: 'src' }, '*.js'),
     babel({
-      presets: [ 'es2015-loose', 'stage-1'],
+      presets: [ 'es2015', 'stage-2'],
       plugins: ['transform-es2015-modules-commonjs'],
     }),
     write('lib')
