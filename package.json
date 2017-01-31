@@ -36,11 +36,11 @@
     "babel-preset-stage-2": "^6.22.0",
     "chai": "^2.3.0",
     "mocha": "^2.2.4",
-    "process-pool": "^0.3.4",
-    "sigh": "^0.12.0",
-    "sigh-babel": "^0.12.0",
+    "process-pool": "^0.3.5",
+    "sigh": "^0.12.35",
+    "sigh-babel": "^0.12.3",
     "sigh-cli": "^0.2.2",
-    "sigh-mocha": "0.0.3",
+    "sigh-mocha": "^0.1.4",
     "source-map-support": "^0.2.10"
   }
 }
